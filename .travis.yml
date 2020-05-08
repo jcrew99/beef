@@ -94,6 +94,96 @@ addons:
     - libcurl4-openssl-dev
   browserstack:
     username:
-      secure: "iAMhXloUy1qzn2mmUHWtbnuLQpoKL42VGpghC47Gu5gTpcfSeHGKKPE4y2ZWQ1piu3yzGeDhP8jaW03DPYye/bjaVbH60RHLAaoIAcFypX4ryPmr3Z5+wpky8RQQy34t4prFX1LURf7z2NQKmlkpT0Gvgus7sqLbuojWJeFyERQ1qJ5esbXEndDFYR7qbI/UKXyQAJ8uK62O44+GfHUXiKlcXJvI8VFUMWAmvoys4bu5y56K0dQbilUKwlSBebU28vjd7FZqzgz/xy0P1G3pwSJm2VTJlhQKggu3argMB9Njvx+K3knRpicoUjIfJ8N0VzLKVrNtO9Qj1FXa/sok+rdbpqe7ZPLfFbyEpUqV7n6MhESKmu7fTwBoVr7W6oPACOD8MI9KHwGGnTjibmrydqklDJF7Cfs4WvxEddN1V2N68MGPEHMmILz2kzTdX4ze22O+2i4ho/Z6MeLfKFdlmZjYkaH0yKV7TTvsz1WOEGnVI6m0v7btI/1EM0iM533FIlyYtkTfNZTbpQBSwTEqZxbAejKZ49I8w+uH3ZvKpz+woDBTuFPgRAzbRZccqyOyTLs1iS3x1qCiQy5EW4ZMluU/GgglG/SyKRTfC7KSrKwyygP4VLGGzckiHd7lq2jeOa8vw7DqMu08IM/EY5OkCLFB5P3+//QvTOsO5q1qR0s="
+      secure: "language: ruby
+rvm:
+- 2.5.3
+- 2.6.0
+- 2.6.3
+- 2.6.5
+- 2.7.0
+branches:
+  only:
+  - master
+  - browserstack
+before_script:
+  - RUBY_VERSION=/bin/bash rvm current
+  - sed -i -E 's/system\((.*?)\)/""/g' /home/travis/.rvm/gems/$RUBY_VERSION/gems/browserstack-local-1.3.0/lib/browserstack/local.rb
+env:
+  - CONFIG_FILE=osx/catalina/catalina_chrome_41.config.yml
+  - CONFIG_FILE=osx/catalina/catalina_chrome_59.config.yml
+  - CONFIG_FILE=osx/catalina/catalina_chrome_81.config.yml
+  - CONFIG_FILE=osx/catalina/catalina_firefox_11.config.yml
+  - CONFIG_FILE=osx/catalina/catalina_firefox_68esr.config.yml
+  - CONFIG_FILE=osx/catalina/catalina_firefox_75.config.yml
+  - CONFIG_FILE=osx/catalina/catalina_safari_13.config.yml
+  - CONFIG_FILE=osx/elcapitan/elcapitan_chrome_14.config.yml
+  - CONFIG_FILE=osx/elcapitan/elcapitan_chrome_81.config.yml
+  - CONFIG_FILE=osx/elcapitan/elcapitan_firefox_7.config.yml
+  - CONFIG_FILE=osx/elcapitan/elcapitan_firefox_75.config.yml
+  - CONFIG_FILE=osx/elcapitan/elcapitan_safari_9-1.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_chrome_14.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_chrome_35.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_chrome_49.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_firefox_7.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_firefox_38esr.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_firefox_42.config.yml
+  - CONFIG_FILE=osx/snowleopard/snowleopard_safari_5-1.config.yml
+  - CONFIG_FILE=windows/win10/win10_chrome_37.config.yml
+  - CONFIG_FILE=windows/win10/win10_chrome_59.config.yml
+  - CONFIG_FILE=windows/win10/win10_firefox_32.config.yml
+  - CONFIG_FILE=windows/win10/win10_firefox_68esr.config.yml
+  - CONFIG_FILE=windows/win10/win10_firefox_75.config.yml
+  - CONFIG_FILE=windows/win10/win10_edge_81.config.yml
+  - CONFIG_FILE=windows/win10/win10_ie_11.config.yml
+  - CONFIG_FILE=windows/win8/win8_chrome_22.config.yml
+  - CONFIG_FILE=windows/win8/win8_chrome_81.config.yml
+  - CONFIG_FILE=windows/win8/win8_firefox_32.config.yml
+  - CONFIG_FILE=windows/win8/win8_firefox_75.config.yml
+  - CONFIG_FILE=windows/win8/win8_edge_81.config.yml
+  - CONFIG_FILE=windows/win8/win8_ie_10.config.yml
+  - CONFIG_FILE=windows/xp/xp_chrome_14.config.yml
+  - CONFIG_FILE=windows/xp/xp_chrome_28.config.yml
+  - CONFIG_FILE=windows/xp/xp_chrome_43.config.yml
+  - CONFIG_FILE=windows/xp/xp_firefox_16.config.yml
+  - CONFIG_FILE=windows/xp/xp_firefox_26.config.yml
+  - CONFIG_FILE=windows/xp/xp_firefox_45.config.yml
+  - CONFIG_FILE=windows/xp/xp_ie_7.config.yml
+jobs:
+  include:
+    - name: "Full Test Suite 2.5.3"
+      rvm: 2.5.3
+      env: CONFIG_FILE=windows/win10/win10_chrome_81.config.yml
+      script: bundle exec rspec
+    - name: "Full Test Suite 2.6.0"
+      rvm: 2.6.0
+      env: CONFIG_FILE=windows/win10/win10_chrome_81.config.yml
+      script: bundle exec rspec
+    - name: "Full Test Suite 2.6.3"
+      rvm: 2.6.3
+      env: CONFIG_FILE=windows/win10/win10_chrome_81.config.yml
+      script: bundle exec rspec
+    - name: "Full Test Suite 2.6.5"
+      rvm: 2.6.5
+      env: CONFIG_FILE=windows/win10/win10_chrome_81.config.yml
+      script: bundle exec rspec
+    - name: "Full Test Suite 2.7.0"
+      rvm: 2.7.0
+      env: CONFIG_FILE=windows/win10/win10_chrome_81.config.yml
+      script: bundle exec rspec
+script:
+  - bundle exec rspec --tag run_on_browserstack
+addons:
+  apt:
+    packages:
+    - libsqlite3-dev
+    - build-essential
+    - patch
+    - ruby-dev
+    - zlib1g-dev
+    - liblzma-dev
+    - libcurl4-openssl-dev
+  browserstack:
+    username:
+      secure: "daJrRJZ5dVTiPQ9El+Tual5FAD28Mtw2lij8RE9nVVsM/gYy6OyJc+JBNXFkgiPKfMWoFyQWH8TpVH9m/nfjUKW/sL5NkZrnjL9B1ArhVA77NqyHfRg8pF6TVupQqDI3lqtKKwTpu8Z9q3hDZYqERRCJ8WEBzJSh/urD5doLzc3x4dLp0BZANZXTXPd2Ic4E7HHvJOR3dn5Ayti20RRfftKeXsP6g957pvxG5uHqKJkgzF3bN8i+3fZqER1y6WcQWy7l3DBjz42qpIcHzLJIX0LM4MeL3FQNDPS8BbAOas9Y31poR5AjklAZCCWSyK3jDyyooXW79hX7om/dzKmOfjQ1by7X9M1ll3jmgtv59JAIoTaHtAff6Vnp5X3G0xntnlqBzyx+NP5mLmLqHxOn9mpdPj5tXgR6EUKQ4/uMsVObOwM/jHWwFFQuiWrd2VSfBdRAYeyGFl1aVhlTA5AGKox0Wx93CQG2oep2iTELWQ7wHymkZ4rDgx3VdeqrH5ZPTIJMmCk6w1EY9MsarM/9Gnbq2JfLNCsWd3ZGg2uEABQ9OhklHPc5exqO9ZYG5IHdNrpxtxD9InGZ2yoedraiX6vGpuFXX4ImOzRXxFYS3bsS8OtKHOLQlDBo0VyvYQkSVYT81BHzQX0ZwAPtQc4L76xKNVh6hlaKVnn+xv+E26o="
     access_key:
-      secure: "qoDu6CKFgiPY9jQXNQ/XJ30x9sX2vfZ+KPca76sH0ELrSPw/rQDtC7L7w/NjwLxtgcGjxhfRL3uSqN8CZjCrxDUV5GKu/hWf4LXqzJqctXO7WFpC+YW7oPDhpKueJ4unAlQ68JKOrouHOcL3ZHoDLhAdQLJCVrbyq7hG/syNlOFvEFCrBN3exd+/NuVWE8NmuKTaONqsnD48hujvrAeNNmedZ3XQ3Wq/a08B/qiCrhTnVqSc9U9xTFGmvPAPwTXydT19gbsVoXt6fQpoWwaOiMe7zfkgW6OkeOye1Fg92G2lWJurVkgqECvC0mx9Z06SdHs5488mtDh0qhVWaCZea22iTAW4iPtGJrdquShLZJIMeQw8LqZPZXYfETb67cNL255t9AiAdKfUvUSk2R+cGNzHJH5ZdhxOUzDTvJsy0NL198/VhlVX/itcojl0bAbynQlhr2EALfPvl0TCvffKDig0vRmbXgvRt5M2crSeIy5UoESOUDOG5FHWrHKoYErdi58fiVbf8Ad38C4f8vqwqFHSnHkSQq+oTp0IndCH0N73PrrvTNHcBzwPGJU7l+0mQqd4tGbaEFnzMT3zkaC5f1/oRqRrdbEpOlRVkbIeIM3BrRVnC7O7C8aDnrJ6rOfNYHst7gp9sfx4hYmJcmZm0RAYnP7ObpWYJUi5a2lYipU="
+      secure: "ZVEijhh4cd0TZEdh0V10P27jNtGnPF+qeY/vetpS8s1s12PvGM0/xg5pALZKrBIhWgC8POXq3i3wrVKMZWzpGGYZhcM7Lo7cYjhSR/4BKXyUm4jtF6JbTDSrNXWdgFeeBqPpRTtrXuGO1Jt4n/6EGrKDuaCasEGw1xa2M+zmZhZLRjitiJ671arYGW6s72PjDNFbNTWMyiEk5bA1XpayfsQXNPzj8PN9hOLYN91jH0YJfX21UDh0I66gd4C/p/0STwhrDFwoWqjSTr//fR8Y3b0EU1p77MoI7YPkU0SGzAsKpCfW+2j8dncj/57yNXoAds4bIWq18vT0Z9/XpEefSokJ8/AAO9mO30C+e3a4v4BmvPWuu/2Yym4NHgnlqDIQfCOn3iDN260vpyzJUYrCQkBWJVRPMHpQA9y6S+RQPH4+Q+LE3cOlLoHHMfVUB+J0FByTWrUnAxrZLSMpNUaerTZm1oYGnD/wOu6dKdQWQTQbETiFEpSxbnwLcJe0SPJ8WrRaxa0Y0pyQFP0kM7raXC+Bph7jmQ2Yv1aueZMQZIBXkc5pyMJvpPPCZdui4Xx6P7HE2Gvst22/5kcQm9KYXyz+g03srvPQWRynagV6OmLAotOiiHPvTIrYLqkXPOxPp1+r/o4wyn3x705RXc08f37aXmAvT1395dE5z9VGusE="
