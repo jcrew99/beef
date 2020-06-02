@@ -13,6 +13,10 @@ require 'core/bootstrap.rb'
 require 'rack/test'
 require 'curb'
 require 'rest-client'
+require 'yaml'
+require 'selenium-webdriver'
+require 'browserstack/local'
+require 'byebug'
 
 # Require supports
 Dir['spec/support/*.rb'].each do |f|
@@ -22,6 +26,24 @@ end
 ENV['RACK_ENV'] ||= 'test'
 ARGV = []
 
+## BrowserStack config
+
+# Monkey patch to avoid reset sessions
+class Capybara::Selenium::Driver < Capybara::Driver::Base
+  def reset!
+    if @browser
+      @browser.navigate.to('about:blank')
+    end
+  end
+end
+
+TASK_ID = (ENV['TASK_ID'] || 0).to_i
+CONFIG_FILE = ENV['CONFIG_FILE'] || 'windows/win10/win10_chrome_81.config.yml'
+CONFIG = YAML.safe_load(File.read("./spec/support/browserstack/#{CONFIG_FILE}"))
+CONFIG['user'] = ENV['BROWSERSTACK_USERNAME'] || ''
+CONFIG['key'] = ENV['BROWSERSTACK_ACCESS_KEY'] || ''
+
+## DB config
 ActiveRecord::Base.logger = nil
 OTR::ActiveRecord.migrations_paths = [File.join('core', 'main', 'ar-migrations')]
 OTR::ActiveRecord.configure_from_hash!(adapter:'sqlite3', database:':memory:')
@@ -46,4 +68,9 @@ RSpec.configure do |config|
       raise ActiveRecord::Rollback
     end
   end
+
+  # BrowserStack
+  # config.around(:example, :run_on_browserstack => true) do |example|
+
+  # end
 end
